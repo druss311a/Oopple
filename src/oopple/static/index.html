@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oopple 🍏💧 | Intelligent Nutrition, Inventory & Culinary Engine</title>
+  <meta name="description" content="Intelligent nutrition, inventory lifecycle, and culinary optimization platform with event-sourced ledger and hydration tracking.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <!-- SVG Gradient Definitions -->
+  <svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
+    <linearGradient id="cyan-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#3b82f6" />
+    </linearGradient>
+  </svg>
+
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="brand-wrapper">
+        <span class="brand-icon">🍏</span>
+        <div>
+          <h1 class="brand-title">Oopple</h1>
+          <p class="brand-tagline">Nutrition • Inventory Lifecycle • Culinary Optimizer</p>
+        </div>
+      </div>
+      <div class="header-status">
+        <div class="status-pill">
+          <span class="status-dot"></span>
+          <span>Ledger Active</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs">
+      <button class="nav-tab active" data-tab="dashboard">
+        📊 Command Dashboard
+      </button>
+      <button class="nav-tab" data-tab="inventory">
+        📦 Inventory & Storage
+      </button>
+      <button class="nav-tab" data-tab="solver">
+        🍳 Culinary Solver
+      </button>
+      <button class="nav-tab" data-tab="ingest">
+        ⚡ Quick Ingestion
+      </button>
+      <button class="nav-tab" data-tab="ledger">
+        ⛓️ Nutrition Ledger
+      </button>
+    </nav>
+
+    <!-- TAB 1: COMMAND DASHBOARD -->
+    <main id="view-dashboard" class="view-panel active">
+      <div class="dashboard-grid">
+        
+        <!-- Hydration Dial Card -->
+        <div class="glass-card">
+          <div class="card-header">
+            <h2 class="card-title">💧 Hydration Balance</h2>
+            <span class="card-badge">Daily Pacing</span>
+          </div>
+          
+          <div class="hydration-dial-wrapper">
+            <div class="circular-dial">
+              <svg viewBox="0 0 170 170">
+                <circle class="dial-bg" cx="85" cy="85" r="70"></circle>
+                <circle id="dial-progress-circle" class="dial-progress" cx="85" cy="85" r="70"></circle>
+              </svg>
+              <div class="dial-center-text">
+                <div id="dial-current-val" class="dial-value">0</div>
+                <div class="dial-unit">ml fluid</div>
+                <div id="dial-target-val" class="dial-target">Target: 2500 ml</div>
+              </div>
+            </div>
+          </div>
+
+          <div id="hydration-quote-text" class="hydration-quote">
+            "Trust us, your body likes water."
+          </div>
+
+          <div style="display: flex; justify-content: space-around; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+            <span>🚰 Pure Water: <strong id="hydration-direct-text" style="color: #fff;">0 ml</strong></span>
+            <span>🥗 From Food: <strong id="hydration-food-text" style="color: #fff;">0 ml</strong></span>
+          </div>
+
+          <div class="hydration-actions">
+            <button class="btn-water-quick" data-amount="250">+250ml</button>
+            <button class="btn-water-quick" data-amount="500">+500ml</button>
+            <button class="btn-water-quick" data-amount="750">+750ml</button>
+            <button class="btn-water-quick" data-amount="1000">+1.0L</button>
+          </div>
+        </div>
+
+        <!-- Macro Budget Bars Card -->
+        <div class="glass-card">
+          <div class="card-header">
+            <h2 class="card-title">🎯 Macro & Calorie Targets</h2>
+            <span class="card-badge">Today's Consumption</span>
+          </div>
+
+          <div class="macro-list">
+            <div class="macro-item">
+              <div class="macro-labels">
+                <span>🔥 Calories</span>
+                <span id="val-cal" class="macro-val">0 / 2000 kcal</span>
+              </div>
+              <div class="progress-track">
+                <div id="fill-cal" class="progress-fill fill-cal" style="width: 0%;"></div>
+              </div>
+            </div>
+
+            <div class="macro-item">
+              <div class="macro-labels">
+                <span>🥩 Protein Target</span>
+                <span id="val-prot" class="macro-val">0 / 140 g</span>
+              </div>
+              <div class="progress-track">
+                <div id="fill-prot" class="progress-fill fill-prot" style="width: 0%;"></div>
+              </div>
+            </div>
+
+            <div class="macro-item">
+              <div class="macro-labels">
+                <span>🍞 Carbohydrates</span>
+                <span id="val-carbs" class="macro-val">0 / 200 g</span>
+              </div>
+              <div class="progress-track">
+                <div id="fill-carbs" class="progress-fill fill-carbs" style="width: 0%;"></div>
+              </div>
+            </div>
+
+            <div class="macro-item">
+              <div class="macro-labels">
+                <span>🥑 Healthy Fats</span>
+                <span id="val-fat" class="macro-val">0 / 65 g</span>
+              </div>
+              <div class="progress-track">
+                <div id="fill-fat" class="progress-fill fill-fat" style="width: 0%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-subtle);">
+            <div>
+              <div style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase;">Grocery Spend Today</div>
+              <div id="val-spend-today" style="font-size: 1.25rem; font-weight: 800; color: #34d399;">$0.00</div>
+            </div>
+            <div>
+              <div style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase;">Food Waste Depreciated</div>
+              <div id="val-waste-today" style="font-size: 1.25rem; font-weight: 800; color: #fb7185;">$0.00</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Shelf-Life & Expiry Radar Card -->
+        <div class="glass-card">
+          <div class="card-header">
+            <h2 class="card-title">📡 Storage & Expiry Radar</h2>
+            <span class="card-badge">Live Inventory</span>
+          </div>
+
+          <div class="expiry-stat-boxes">
+            <div class="stat-box critical">
+              <span id="stat-critical-count" class="stat-number" style="color: #fb7185;">0</span>
+              <span class="stat-label">Expiring Today</span>
+            </div>
+            <div class="stat-box warning">
+              <span id="stat-warning-count" class="stat-number" style="color: #fcd34d;">0</span>
+              <span class="stat-label">Use Soon (≤3d)</span>
+            </div>
+            <div class="stat-box fresh">
+              <span id="stat-fresh-count" class="stat-number" style="color: #6ee7b7;">0</span>
+              <span class="stat-label">Fresh Batches</span>
+            </div>
+            <div class="stat-box">
+              <span id="stat-total-count" class="stat-number" style="color: #fff;">0</span>
+              <span class="stat-label">Total Stored</span>
+            </div>
+          </div>
+
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
+            Oopple dynamically calculates food decay curves based on whether items are in the Fridge, Freezer, or Pantry.
+          </p>
+
+          <button class="btn-secondary" style="width: 100%;" onclick="document.querySelector('[data-tab=solver]').click()">
+            ✨ Optimize Meals from Stored Stock
+          </button>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- TAB 2: INVENTORY & STORAGE -->
+    <section id="view-inventory" class="view-panel">
+      <div class="inventory-controls">
+        <div class="location-filter-pills">
+          <button class="filter-pill active" data-location="all">All Storage</button>
+          <button class="filter-pill" data-location="fridge">Fridge ❄️</button>
+          <button class="filter-pill" data-location="freezer">Freezer 🧊</button>
+          <button class="filter-pill" data-location="pantry">Pantry 🥫</button>
+          <button class="filter-pill" data-location="cabinet">Cabinet 🚪</button>
+          <button class="filter-pill" data-location="counter">Counter 🧺</button>
+        </div>
+
+        <button class="btn-primary" onclick="document.querySelector('[data-tab=ingest]').click()">
+          ➕ Ingest Food or Garden Harvest
+        </button>
+      </div>
+
+      <div id="inventory-grid" class="inventory-cards-grid">
+        <!-- Injected via JavaScript -->
+      </div>
+    </section>
+
+    <!-- TAB 3: CULINARY SOLVER & OPTIMIZER -->
+    <section id="view-solver" class="view-panel">
+      <div class="glass-card" style="margin-bottom: 1.5rem;">
+        <div class="card-header">
+          <h2 class="card-title">🧠 Multi-Objective Culinary Solver</h2>
+          <span class="card-badge">Smart Meal Recommendation</span>
+        </div>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
+          Our solver cross-references your current inventory shelf-life urgency, daily macro deficit, and taste preferences to prioritize cooking near-expiring ingredients while hitting your goals.
+        </p>
+
+        <div style="display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap;">
+          <div style="flex: 1; min-width: 250px;">
+            <label class="form-label" for="slider-weight-expiry">🔥 Expiry Urgency Bias (Depreciate Before Spoilage)</label>
+            <input type="range" id="slider-weight-expiry" min="1" max="10" step="0.5" value="3.5" style="width: 100%;">
+          </div>
+          <button class="btn-secondary" onclick="loadRecommendations()">
+            🔄 Recalculate Suggestions
+          </button>
+        </div>
+      </div>
+
+      <div id="recipes-grid" class="recipes-grid">
+        <!-- Injected via JavaScript -->
+      </div>
+    </section>
+
+    <!-- TAB 4: QUICK INGESTION (BARCODE & NLP) -->
+    <section id="view-ingest" class="view-panel">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+        
+        <!-- Barcode Scanner Card -->
+        <div class="glass-card">
+          <div class="card-header">
+            <h2 class="card-title">📷 Universal Barcode Scanner</h2>
+            <span class="card-badge">OpenFoodFacts API</span>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
+            Scan or enter any UPC/EAN barcode to resolve commercial products or seed staples automatically.
+          </p>
+
+          <form id="barcode-form">
+            <div class="form-group">
+              <label class="form-label" for="barcode-input">UPC / EAN Barcode</label>
+              <input type="text" id="barcode-input" class="form-input" placeholder="e.g. 000000000002 or any packaged product" required>
+            </div>
+            <button type="submit" class="btn-primary" style="width: 100%;">
+              🔍 Scan & Resolve Product
+            </button>
+          </form>
+
+          <div id="barcode-result-preview"></div>
+        </div>
+
+        <!-- NLP Receipt / List Ingestion Card -->
+        <div class="glass-card">
+          <div class="card-header">
+            <h2 class="card-title">📝 Quick Text / Receipt Ingestion</h2>
+            <span class="card-badge">NLP Parser</span>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
+            Paste a grocery receipt or list of harvested garden items to batch-ingest into your inventory.
+          </p>
+
+          <form id="nlp-form">
+            <div class="form-group">
+              <label class="form-label" for="nlp-text-input">Natural Language Items</label>
+              <textarea id="nlp-text-input" class="form-textarea" rows="4" placeholder="2 lbs Chicken Breast&#10;500ml Milk&#10;3 Apples&#10;1 cup Jasmine Rice" required></textarea>
+            </div>
+            <button type="submit" class="btn-secondary" style="width: 100%;">
+              ⚡ Parse Grocery List
+            </button>
+          </form>
+
+          <div id="nlp-result-preview"></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- TAB 5: CRYPTOGRAPHIC NUTRITION LEDGER -->
+    <section id="view-ledger" class="view-panel">
+      <div class="glass-card" style="margin-bottom: 1.5rem;">
+        <div class="card-header">
+          <h2 class="card-title">⛓️ Cryptographic Nutrition & Cost Ledger</h2>
+          <span id="ledger-verify-badge" class="card-badge" style="color: #34d399;">🔒 Hash Chain Verified</span>
+        </div>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">
+          Every food unit acquired, stored, consumed, or depreciated is committed to an immutable SHA-256 event ledger — establishing complete provenance for nutrition, hydration, and budget analytics.
+        </p>
+      </div>
+
+      <div class="ledger-table-container">
+        <table class="ledger-table">
+          <thead>
+            <tr>
+              <th>Block #</th>
+              <th>Event</th>
+              <th>Intake Unit</th>
+              <th>Nutrition Logged</th>
+              <th>Hydration</th>
+              <th>SHA-256 Hash</th>
+              <th>Timestamp</th>
+            </tr>
+          </thead>
+          <tbody id="ledger-tbody">
+            <!-- Injected via JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <!-- CONSUME MODAL -->
+  <div id="modal-consume" class="modal-overlay">
+    <div class="modal-content">
+      <h3 style="margin-bottom: 0.5rem; font-size: 1.3rem;">🍽️ Consume Item</h3>
+      <p id="consume-item-name" style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.25rem;"></p>
+
+      <form id="consume-form">
+        <div class="form-group">
+          <label class="form-label" for="consume-qty-input">Quantity to Consume</label>
+          <input type="number" id="consume-qty-input" class="form-input" step="any" required>
+        </div>
+        <div style="display: flex; gap: 0.75rem; justify-content: flex-end;">
+          <button type="button" class="btn-secondary btn-close-modal">Cancel</button>
+          <button type="submit" class="btn-primary">Log Consumption</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MOVE MODAL -->
+  <div id="modal-move" class="modal-overlay">
+    <div class="modal-content">
+      <h3 style="margin-bottom: 0.5rem; font-size: 1.3rem;">📦 Move Storage Location</h3>
+      <p id="move-item-name" style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.25rem;"></p>
+
+      <form id="move-form">
+        <div class="form-group">
+          <label class="form-label" for="move-location-select">Target Storage Location</label>
+          <select id="move-location-select" class="form-select">
+            <option value="fridge">Fridge ❄️ (Cold Storage)</option>
+            <option value="freezer">Freezer 🧊 (Extends Shelf-Life to Months!)</option>
+            <option value="pantry">Pantry 🥫 (Ambient Dry)</option>
+            <option value="cabinet">Cabinet 🚪</option>
+            <option value="counter">Counter 🧺 (Quick Consumption)</option>
+          </select>
+        </div>
+        <div style="display: flex; gap: 0.75rem; justify-content: flex-end;">
+          <button type="button" class="btn-secondary btn-close-modal">Cancel</button>
+          <button type="submit" class="btn-primary">Transfer & Update Expiry</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Script -->
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
